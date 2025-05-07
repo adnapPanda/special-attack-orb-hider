@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
@@ -47,15 +48,16 @@ public class specialAttackOrbHiderPlugin extends Plugin
 	public void onItemContainerChanged(ItemContainerChanged itemContainerChanged)
 	{
 		// Hides the spec orb for all weapons if option is set
-		if (config.hideSpecOrbAll()) Objects.requireNonNull(client.getWidget(SPEC_ORB_ID)).setHidden(true);
+		Widget SpecOrb = client.getWidget(SPEC_ORB_ID);
+		if (config.hideSpecOrbAll() && SpecOrb != null) SpecOrb.setHidden(true);
 		// Checks whether equipped weapon is specified in the list provided by player and disables spec orb if so
 		else {
 			final ItemContainer itemContainer = client.getItemContainer(InventoryID.WORN);
 			if (itemContainer != null) {
 				final Item weapon = itemContainer.getItem(EquipmentInventorySlot.WEAPON.getSlotIdx());
-				if (weapon != null) {
+				if (weapon != null && SpecOrb != null) {
 					String weaponName = itemManager.getItemComposition(weapon.getId()).getName().toLowerCase();
-					Objects.requireNonNull(client.getWidget(SPEC_ORB_ID)).setHidden(config.hideSpecifiedSpecOrb().toLowerCase().contains(weaponName));
+					SpecOrb.setHidden(config.hideSpecifiedSpecOrb().toLowerCase().contains(weaponName));
 				}
 			}
 		}
