@@ -30,7 +30,7 @@ public class specialAttackOrbHiderPlugin extends Plugin
 	@Inject
 	private specialAttackOrbHiderConfig config;
 
-	private static final int SPEC_ORB_ID = 10485793;
+	private static final int SPEC_ORB_ID = 10485794;
 
 	@Override
 	protected void startUp() throws Exception
